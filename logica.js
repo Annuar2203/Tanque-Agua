@@ -17,7 +17,7 @@ var vaciando_tanque = 270;
 
 
 
-
+alert("Revisar consola en el inspeccionar, se muestra el programa");
 
 
 
@@ -122,7 +122,7 @@ function llave_1_y_llave3(){
 
 
 tanque1();
-alert("Revisar consola en el inspeccionar, se muestra el programa");
+
 
 
 
