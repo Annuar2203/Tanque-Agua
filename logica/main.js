@@ -1,6 +1,6 @@
-var llave1 = true;
+var llave1 = false;
 var llave2 = true;
-var llave3 = true;
+var llave3 = false;
 var capacidad_tanque = 5000;
 var capacidad_tanque2 = 4000;
 var maximo_porcentaje = capacidad_tanque*0.75; //Primer tanque 75%
@@ -11,51 +11,102 @@ var llenando = maximo_porcentaje;
 var llenando2 = 0;
 var tiempo_transcurrido = 0;
 
-var numero_aleatorio = 0;
-var numero_aleatorio2 = 0;
-var vaciando_tanque = 0;
+var num1
+var num2
+var num3
+var input1 = document.getElementById("valor_1");
+var input2 = document.getElementById("valor_2");
+var input3 = document.getElementById("valor_3");
 
+var numero_aleatorio;
+var numero_aleatorio2;
+var vaciando_tanque;
 
-
-var intervalo;
-
-
-function detener(){
-    limpiar();
-    clearInterval(intervalo);
-    console.log("Programa detenido");
-}
-
-var boton_iniciar = document.getElementById("boton-inicio");
-var boton_parar = document.getElementById("boton-parar");
-
-boton_iniciar.addEventListener("click",iniciar);
-
-
-
-
-function limpiar(){
-    llave1 = true;
+function limpiar(){ //Limpia las variables del programa
+    llave1 = false;
     llave2 = true;
-    llave3 = true;
+    llave3 = false;
     capacidad_tanque = 5000;
     capacidad_tanque2 = 4000;
     llenando = maximo_porcentaje;
     llenando2 = 0;
+    if (tiempo_transcurrido == 0){
+        alert("El programa ya se encuentra detenido");
+    }
     tiempo_transcurrido = 0;
-
     numero_aleatorio = 0;
     numero_aleatorio2 = 0;
     vaciando_tanque = 0;
+    boton_iniciar.disabled = false;
+    input1.value = "";
+    input2.value = "";
+    input3.value = "";
+}
+
+let intervalo;
+let intervalo2;
+let intervalo3;
+let intervalo4;
+
+
+function detener(){ //Detienee el programa
+    limpiar();
+    clearInterval(intervalo);
+    clearInterval(intervalo2);
+    clearInterval(intervalo3);
+    clearInterval(intervalo4);
+    habilitarEdicion();
+    console.log("Programa detenido");
 }
 
 
+//Validar numeros de los input
+function esNumeroValido(valor) {
+    return !isNaN(valor) && valor >= 0;
+}
 
-// alert("Revisar consola en el inspeccionar, se muestra el programa");
+function habilitarEdicion(){
+    input1.removeAttribute("readonly");
+    input2.removeAttribute("readonly");
+    input3.removeAttribute("readonly");
+}
+
+function deshabilitarEdicion(){
+    input1.setAttribute("readonly",true);
+    input2.setAttribute("readonly",true);
+    input3.setAttribute("readonly",true);
+}
 
 
-// tanque1();
+//Declaraacion y programacion de los botones
+var boton_iniciar = document.getElementById("boton-inicio");
+var boton_parar = document.getElementById("boton-parar");
+
+boton_iniciar.addEventListener("click",iniciar);
+boton_parar.addEventListener("click",detener);
+
+
+
+
+
+//Se inicia el programa
+
 function iniciar(){
+    boton_iniciar.disabled = true;
+    
+    num1 = parseFloat(input1.value);
+    num2 = parseFloat(input2.value);
+    num3 = parseFloat(input3.value);
+    if (esNumeroValido(num1) && esNumeroValido(num2) && esNumeroValido(num3)) {
+        numero_aleatorio = Math.floor(Math.random() * (num1 + 1));
+        numero_aleatorio2 = Math.floor(Math.random() * (num2 + 1));
+        vaciando_tanque = Math.floor(Math.random() * (num3 + 1));
+        deshabilitarEdicion();
+        tanque1();
+    } else {
+        boton_iniciar.disabled = false;
+        alert("Por favor, ingresa solo números mayores o iguales a 0 en todos los campos.");
+    }
     function tanque1(){
         console.log("Numero aleatorio generado para el primer tanque: " + numero_aleatorio);
         intervalo = setInterval(function(){
@@ -76,20 +127,20 @@ function iniciar(){
         
     function tanque2(){
         console.log("Numero aleatorio generado para el segundo tanque: " + numero_aleatorio2)
-        intervalo = setInterval(function(){
+        intervalo2 = setInterval(function(){
             if (llenando <= minimo_porcentaje){
                 llave1 = true;
                 llave2 = false;
                 console.log("Llave 2 cerrada y ahora se abre la llave 1");
                 tanque1();
-                clearInterval(intervalo);
+                clearInterval(intervalo2);
             }
             else if(llenando2 >= maximo_porcentaje2){
                 llave2 = false;
                 llave3 = true;
                 console.log("Llave 2 cerrada y ahora se abre la llave 3");
                 terceraLlave();
-                clearInterval(intervalo);
+                clearInterval(intervalo2);
             }
             else if((llenando <= minimo_porcentaje) && (llenando2 >= maximo_porcentaje2)){
                 llave1 = true;
@@ -97,7 +148,7 @@ function iniciar(){
                 llave2 = false;
                 console.log("El tanque 1 esta lo suficientemente vacio y el tanque 2 esta lleno, se abre la llave 1 y la llave 3");
                 llave_1_y_llave3();
-                clearInterval(intervalo);
+                clearInterval(intervalo2);
             }
             else{
                 tiempo_transcurrido += 1;
@@ -110,13 +161,13 @@ function iniciar(){
     
     function terceraLlave(){
         console.log("Numero de la tercera llave generada: " + vaciando_tanque);
-        intervalo = setInterval(function() {
+        intervalo3 = setInterval(function() {
             if(llenando2 <= minimo_porcentaje){
                 llave3 = false;
                 llave2 = true;
                 console.log("Llave 3 cerrada y se abre la segunda llave");
                 tanque2();
-                clearInterval(intervalo);
+                clearInterval(intervalo3);
             }
             else{
                 tiempo_transcurrido += 1;
@@ -127,13 +178,13 @@ function iniciar(){
     }
     
     function llave_1_y_llave3(){
-        intervalo = setInterval(function(){
+        intervalo4 = setInterval(function(){
             if(llenando2 <= minimo_porcentaje2){
                 if (llenando >= maximo_porcentaje){
                     console.log("Se lleno el tanque 1, se cierra la llave y se abre la llave 2");
                     llave2 = true;
                     tanque2();
-                    clearInterval(intervalo);
+                    clearInterval(intervalo4);
                 }
                 else{
                     tiempo_transcurrido += 1;
@@ -149,9 +200,7 @@ function iniciar(){
             
         },1000);
     }
-    tanque1();
-
-    boton_parar.addEventListener("click",detener);
+    
 }
 
 
