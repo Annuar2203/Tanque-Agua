@@ -7,7 +7,7 @@ var maximo_porcentaje = capacidad_tanque*0.75; //Primer tanque 75%
 var minimo_porcentaje = capacidad_tanque*0.50; //Primer tanque 50%
 var maximo_porcentaje2 = capacidad_tanque2*0.75;
 var minimo_porcentaje2 = capacidad_tanque2*0.50;
-var llenando = 0;
+var llenando = maximo_porcentaje;
 var llenando2 = 0;
 var tiempo_transcurrido = 0;
 
@@ -121,7 +121,7 @@ function llave_1_y_llave3(){
 }
 
 
-tanque1();
+// tanque1();
 
 
 
