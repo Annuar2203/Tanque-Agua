@@ -1,31 +1,14 @@
-.container {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .tanque {
-    width: 200px;
-    height: 300px;
-    border: 1px solid black;
-    position: relative;
-  }
-  
-  #grifo {
-    width: 20px;
-    height: 40px;
-    background-color: gray;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  #llave {
-    width: 20px;
-    height: 20px;
-    background-color: silver;
-    position: absolute;
-    top: 5px;
-    left: 5px;
-  }
-  
+.tanque {
+  width: 130px; 
+  height: 180px; 
+  border: 2px solid #555;
+}
+
+button{
+  border-radius: 3px;
+}
+
+img{
+  width: 30px;
+  height: 30px;
+}
