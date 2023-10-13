@@ -48,6 +48,32 @@ let intervalo2;
 let intervalo3;
 let intervalo4;
 
+//agregado por Perry
+const tanque1 = document.querySelector('.tanque1');
+
+setTimeout(() => {
+  tanque1.classList.add('lleno');
+  setTimeout(() => {
+    tanque1.classList.remove('lleno');
+    tanque1.classList.add('vaciando');
+    setTimeout(() => {
+      tanque1.classList.remove('vaciando');
+    }, 500);
+  }, 6750);
+}, 1000);
+
+const tanque2 = document.querySelector('.tanque2');
+setTimeout(() => {
+    tanque2.classList.add('lleno');
+    setTimeout(() => {
+      tanque2.classList.remove('lleno');
+      tanque2.classList.add('vaciando');
+      setTimeout(() => {
+        tanque2.classList.remove('vaciando');
+      }, 500);
+    }, 6150);
+  }, 1000);
+
 
 function detener(){ //Detienee el programa
     limpiar();
