@@ -1,3 +1,19 @@
+.izquierda{
+  float: left;
+  width: 50%;
+}
+
+.derecha{
+  float: right;
+  width: 50%;
+}
+
+section{
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+
 .tanque1 {
   width: 130px; 
   height: 180px;
@@ -13,7 +29,7 @@
   background-color: blue;
   position: absolute;
   bottom: 0;
-  transition: height 2s;
+  /* transition: height 2s; */
 }
 
 .tanque1.lleno .agua1 {
@@ -45,7 +61,7 @@
 
 .tanque2 {
   width: 130px; 
-  height: 180px; 
+  height: 160px; 
   margin: 0px 0px 15px 200px;
   background-color: #ccc;
   border: 5px solid black;
@@ -58,7 +74,7 @@
   background-color: blue;
   position: absolute;
   bottom: 0;
-  transition: height 2.5s;
+  /* transition: height 2.5s; */
 }
 
 .tanque2.lleno .agua2 {

@@ -1,6 +1,25 @@
+var agua_1 = document.getElementById("agua1");
+var agua_2 = document.getElementById("agua2");
+var tanque_1 = document.getElementById("tanque_1");
+var tanque_2 = document.getElementById("tanque_2");
+setWaterLevel(agua_1,100);
+setWaterLevel(agua_2,0);
+
+
+var spanIndicador = document.getElementById('indicador-1');
+var spanIndicador2 = document.getElementById('indicador-2');
+var spanGenerado1 = document.getElementById('generado-1');
+var spanGenerado2 = document.getElementById('generado-2');
+var spanGenerado3 = document.getElementById('generado-3');
+setContentSpan(spanIndicador,0);
+setContentSpan(spanIndicador2,0);
+
 var llave1 = false;
-var llave2 = true;
+var llave2 = false;
 var llave3 = false;
+var contLlave1 = document.getElementById("cuerpo-1");
+var contLlave2 = document.getElementById("cuerpo-2");
+var contLlave3 = document.getElementById("cuerpo-3");
 var capacidad_tanque = 5000;
 var capacidad_tanque2 = 4000;
 var maximo_porcentaje = capacidad_tanque*0.75; //Primer tanque 75%
@@ -22,9 +41,15 @@ var numero_aleatorio;
 var numero_aleatorio2;
 var vaciando_tanque;
 
+
+
+
+// agua_1.style.height = 50 + '%';
+// agua_2.style.height = 50 + '%';
+
 function limpiar(){ //Limpia las variables del programa
     llave1 = false;
-    llave2 = true;
+    llave2 = false;
     llave3 = false;
     capacidad_tanque = 5000;
     capacidad_tanque2 = 4000;
@@ -32,7 +57,16 @@ function limpiar(){ //Limpia las variables del programa
     llenando2 = 0;
     if (tiempo_transcurrido == 0){
         alert("El programa ya se encuentra detenido");
+        setWaterLevel(agua_1,100);
+        setWaterLevel(agua_2,0);
     }
+    setWaterLevel(agua_1,100);
+    setWaterLevel(agua_2,0);
+    setContentSpan(spanIndicador,0);
+    setContentSpan(spanIndicador2,0);
+    spanGenerado1.textContent = ' ';
+    spanGenerado2.textContent = ' ';
+    spanGenerado3.textContent = ' ';
     tiempo_transcurrido = 0;
     numero_aleatorio = 0;
     numero_aleatorio2 = 0;
@@ -47,32 +81,35 @@ let intervalo;
 let intervalo2;
 let intervalo3;
 let intervalo4;
+var porcentaje;
+var porcentaje2;
+
 
 //agregado por Perry
-const tanque1 = document.querySelector('.tanque1');
+// const tanque1 = document.querySelector('.tanque1');
 
-setTimeout(() => {
-  tanque1.classList.add('lleno');
-  setTimeout(() => {
-    tanque1.classList.remove('lleno');
-    tanque1.classList.add('vaciando');
-    setTimeout(() => {
-      tanque1.classList.remove('vaciando');
-    }, 500);
-  }, 6750);
-}, 1000);
+// setTimeout(() => {
+//   tanque1.classList.add('lleno');
+//   setTimeout(() => {
+//     tanque1.classList.remove('lleno');
+//     tanque1.classList.add('vaciando');
+//     setTimeout(() => {
+//       tanque1.classList.remove('vaciando');
+//     }, 500);
+//   }, 6750);
+// }, 1000);
 
-const tanque2 = document.querySelector('.tanque2');
-setTimeout(() => {
-    tanque2.classList.add('lleno');
-    setTimeout(() => {
-      tanque2.classList.remove('lleno');
-      tanque2.classList.add('vaciando');
-      setTimeout(() => {
-        tanque2.classList.remove('vaciando');
-      }, 500);
-    }, 6150);
-  }, 1000);
+// const tanque2 = document.querySelector('.tanque2');
+// setTimeout(() => {
+//     tanque2.classList.add('lleno');
+//     setTimeout(() => {
+//       tanque2.classList.remove('lleno');
+//       tanque2.classList.add('vaciando');
+//       setTimeout(() => {
+//         tanque2.classList.remove('vaciando');
+//       }, 500);
+//     }, 6150);
+//   }, 1000);
 
 
 function detener(){ //Detienee el programa
@@ -112,7 +149,7 @@ function deshabilitarEdicion(){
 }
 
 
-//Declaraacion y programacion de los botones
+//Declaracion y programacion de los botones
 var boton_iniciar = document.getElementById("boton-inicio");
 var boton_parar = document.getElementById("boton-parar");
 
@@ -120,8 +157,21 @@ boton_iniciar.addEventListener("click",iniciar);
 boton_parar.addEventListener("click",detener);
 
 
+function setWaterLevel(waterId,percentage){
+    waterId.style.height = percentage + '%';
+}
 
+function setContentSpan(span,num){
+    span.textContent = num.toFixed(2) + '%';
+}
 
+// function cambiarColorLlave(key,contenedor){
+//     if (key){
+//         contenedor.classList.remove('redDiv');
+//     }else{
+//         contenedor.classList.add('redDiv');
+//     }
+// }
 
 //Se inicia el programa
 
@@ -136,6 +186,9 @@ function iniciar(){
         numero_aleatorio2 = Math.floor(Math.random() * (num2 + 1));
         vaciando_tanque = Math.floor(Math.random() * (num3 + 1));
         deshabilitarEdicion();
+        spanGenerado1.textContent = numero_aleatorio + 'lts/seg';
+        spanGenerado2.textContent = numero_aleatorio2 + 'lts/seg';
+        spanGenerado3.textContent = vaciando_tanque + 'lts/seg';
         tanque1();
     } else {
         boton_iniciar.disabled = false;
@@ -151,12 +204,15 @@ function iniciar(){
                 console.log("Llave 1 cerrada y ahora se abre la llave 2");
                 llave1 = false;
                 llave2 = true;
-                tanque2();
                 clearInterval(intervalo);
+                tanque2();
             }
             else{
                 tiempo_transcurrido += 1;
                 llenando += numero_aleatorio;
+                porcentaje = ((llenando/capacidad_tanque)*100);
+                setWaterLevel(agua_1,porcentaje);
+                setContentSpan(spanIndicador,porcentaje);
                 console.log("Ha pasado " + tiempo_transcurrido + " segundos y el tanque 1: " + llenando + " litros de agua tanque 2: " + llenando2 + " litros de agua");
             }
         },1000);
@@ -187,10 +243,16 @@ function iniciar(){
                 llave_1_y_llave3();
                 clearInterval(intervalo2);
             }
-            else{
+            else if(llenando2 < maximo_porcentaje2){
                 tiempo_transcurrido += 1;
                 llenando -= numero_aleatorio2;
+                porcentaje = ((llenando/capacidad_tanque)*100);
+                setWaterLevel(agua_1,porcentaje);
+                setContentSpan(spanIndicador,porcentaje);
                 llenando2 += numero_aleatorio2;
+                porcentaje2 = ((llenando2/capacidad_tanque2)*100);
+                setWaterLevel(agua_2,porcentaje2);
+                setContentSpan(spanIndicador2,porcentaje2);
                 console.log("Ha pasado " + tiempo_transcurrido + " segundos y el tanque 1: " + llenando + " litros de agua tanque 2: " + llenando2 + " litros de agua");
             }
         },1000);
@@ -199,7 +261,7 @@ function iniciar(){
     function terceraLlave(){
         console.log("Numero de la tercera llave generada: " + vaciando_tanque);
         intervalo3 = setInterval(function() {
-            if(llenando2 <= minimo_porcentaje){
+            if(llenando2 <= minimo_porcentaje2){
                 llave3 = false;
                 llave2 = true;
                 console.log("Llave 3 cerrada y se abre la segunda llave");
@@ -209,6 +271,9 @@ function iniciar(){
             else{
                 tiempo_transcurrido += 1;
                 llenando2 -= vaciando_tanque;
+                porcentaje2 = ((llenando2/capacidad_tanque2)*100);
+                setWaterLevel(agua_2,porcentaje2);
+                setContentSpan(spanIndicador2,porcentaje2);
                 console.log("Ha pasado " + tiempo_transcurrido + " segundos y la llave 3 sigue abierta y el tanque 2 se esta vaciando (tiene " + llenando2 + " litros de agua)" + " tanque 1: " + llenando);
             }
         },1000);
@@ -226,12 +291,18 @@ function iniciar(){
                 else{
                     tiempo_transcurrido += 1;
                     llenando += numero_aleatorio;
+                    porcentaje = ((llenando/capacidad_tanque)*100);
+                    setWaterLevel(agua_2,porcentaje);
+                    setContentSpan(spanIndicador,porcentaje);
                     console.log("Ha pasado " + tiempo_transcurrido + " segundos y el tanque 1 se esta llenando " + " tanque 1: " + llenando + " litros de agua");
                 }
             }
             else{
                 tiempo_transcurrido += 1;
                 llenando2 -= vaciando_tanque;
+                porcentaje2 = ((llenando2/capacidad_tanque)*100);
+                setWaterLevel(agua_2,porcentaje2);
+                setContentSpan(spanIndicador2,porcentaje2);
                 console.log("Ha pasado " + tiempo_transcurrido + " segundos y la llave 3 sigue abierta junto con la llave 1 ("+ llenando +" litros de agua tanque 1 y " + llenando2 + " litros de agua tanque 2");
             }
             
