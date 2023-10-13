@@ -62,7 +62,15 @@ function detener(){ //Detienee el programa
 
 //Validar numeros de los input
 function esNumeroValido(valor) {
-    return !isNaN(valor) && valor >= 0;
+    return !isNaN(valor) && valor >= 0 && valor <= 400;
+}
+
+function esNumeroValido2(valor) {
+    return !isNaN(valor) && valor >= 0 && valor <= 500;
+}
+
+function esNumeroValido3(valor){
+    return !isNaN(valor) && valor >= 0 && valor <= 600;
 }
 
 function habilitarEdicion(){
@@ -97,7 +105,7 @@ function iniciar(){
     num1 = parseFloat(input1.value);
     num2 = parseFloat(input2.value);
     num3 = parseFloat(input3.value);
-    if (esNumeroValido(num1) && esNumeroValido(num2) && esNumeroValido(num3)) {
+    if (esNumeroValido(num1) && esNumeroValido2(num2) && esNumeroValido3(num3)) {
         numero_aleatorio = Math.floor(Math.random() * (num1 + 1));
         numero_aleatorio2 = Math.floor(Math.random() * (num2 + 1));
         vaciando_tanque = Math.floor(Math.random() * (num3 + 1));
@@ -106,6 +114,9 @@ function iniciar(){
     } else {
         boton_iniciar.disabled = false;
         alert("Por favor, ingresa solo números mayores o iguales a 0 en todos los campos.");
+        input1.value = "";
+        input2.value = "";
+        input3.value = "";
     }
     function tanque1(){
         console.log("Numero aleatorio generado para el primer tanque: " + numero_aleatorio);
