@@ -1,11 +1,60 @@
 .izquierda{
   float: left;
-  width: 50%;
+  width: 30%;
+}
+
+.izquierda {
+  display: flex;
+  flex-direction: column;
+}
+
+.derecha {
+  font-family: Arial, sans-serif;
+  font-size: 17px;
+}
+
+#indicador-1, #generado-1 {
+  display: block;
+}
+
+#indicador-2, #generado-2 {
+  display: block;
+}
+
+
+#boton-inicio {
+  order: 1;
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+#valor_1 {
+  order: 2;
+  width: 180px;
+  margin-bottom: 10px;
+}
+
+#valor_2 {
+  order: 3;
+  width: 180px;
+  margin-bottom: 10px;
+}
+
+#valor_3 {
+  order: 4;
+  width: 180px;
+  margin-bottom: 10px;
+}
+
+#boton-parar {
+  order: 5;
+  width: 100px;
+  margin-bottom: 10px;
 }
 
 .derecha{
   float: right;
-  width: 50%;
+  width: 70%;
 }
 
 section{
@@ -193,15 +242,17 @@ section{
 
 .reloj{
   position: absolute;
-  top: 0;
-  right: 0;
+  margin: -510px 0px 0px 668px;
   width: 200px;
   height: 200px;
   border-radius: 50%;
   border: 10px solid #000;
 }
 
-.manecillaH, .manecillaM, .manecillaS {
+
+.manecillaS {
+  transform: rotate(0deg) translateX(50%);
+  top: calc(50% - 68px);
   position: absolute;
   width: 3px;
   height: 60px;
@@ -210,26 +261,34 @@ section{
   left: calc(50% - 1px);
 }
 
-.manecillaH {
-  transform: rotate(1deg) translateX(50%);
-  top: calc(50% - 65px);
-}
-
-.manecillaM {
-  transform: rotate(17deg) translateX(50%);
-  top: calc(50% - 66px);
-}
-
-.manecillaS {
-  transform: rotate(45deg) translateX(50%);
-  top: calc(50% - 68px);
-}
-
 button{
-  border-radius: 3px;
+  border-radius: 10px;
 }
 
 img{
   width: 30px;
   height: 30px;
+}
+
+.llave-roja .manija1,
+.llave-roja .cuerpo1,
+.llave-roja .manija2,
+.llave-roja .cuerpo2,
+.llave-roja .manija3,
+.llave-roja .cuerpo3 {
+    background-color: red;
+    /* Otros estilos rojos que desees */
+}
+
+.agua {
+  position: absolute;
+  top: 30px; /* La distancia desde la parte superior del cuerpo de la llave */
+  left: 25px; /* La posición horizontal donde quieres que comience la línea de agua */
+  width: 2px; /* Ancho de la línea de agua */
+  height: 30px; /* Altura de la línea de agua */
+  background-color: blue; /* Color del agua */
+}
+
+.llave-roja .agua-roja {
+  display: none;
 }

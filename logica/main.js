@@ -17,9 +17,10 @@ setContentSpan(spanIndicador2,0);
 var llave1 = false;
 var llave2 = false;
 var llave3 = false;
-var contLlave1 = document.getElementById("cuerpo-1");
-var contLlave2 = document.getElementById("cuerpo-2");
-var contLlave3 = document.getElementById("cuerpo-3");
+const llave1Elemento = document.querySelector('.llave1');
+const llave2Elemento = document.querySelector('.llave2');
+const llave3Elemento = document.querySelector('.llave3');
+actualizarColoresLlaves()
 var capacidad_tanque = 5000;
 var capacidad_tanque2 = 4000;
 var maximo_porcentaje = capacidad_tanque*0.75; //Primer tanque 75%
@@ -51,6 +52,7 @@ function limpiar(){ //Limpia las variables del programa
     llave1 = false;
     llave2 = false;
     llave3 = false;
+    actualizarColoresLlaves()
     capacidad_tanque = 5000;
     capacidad_tanque2 = 4000;
     llenando = capacidad_tanque;
@@ -84,6 +86,7 @@ let intervalo4;
 var porcentaje;
 var porcentaje2;
 
+const manecillaS = document.getElementById('manecillaS');
 
 //agregado por Perry
 // const tanque1 = document.querySelector('.tanque1');
@@ -119,6 +122,7 @@ function detener(){ //Detienee el programa
     clearInterval(intervalo3);
     clearInterval(intervalo4);
     habilitarEdicion();
+    manecillaS.style.transform = `rotate(${0}deg) translateX(50%)`;
     console.log("Programa detenido");
 }
 
@@ -165,6 +169,35 @@ function setContentSpan(span,num){
     span.textContent = num.toFixed(2) + '%';
 }
 
+
+
+function actualizarColoresLlaves() {
+    // Si llave1 es true, mantiene el color plateado, de lo contrario, cambia a rojo
+    llave1Elemento.classList.toggle('llave-roja', !llave1);
+    llave1Elemento.querySelector('.agua').classList.toggle('agua-roja', !llave1);
+    
+    // Si llave2 es true, mantiene el color plateado, de lo contrario, cambia a rojo
+    llave2Elemento.classList.toggle('llave-roja', !llave2);
+    llave2Elemento.querySelector('.agua').classList.toggle('agua-roja', !llave2);
+    
+    // Si llave3 es true, mantiene el color plateado, de lo contrario, cambia a rojo
+    llave3Elemento.classList.toggle('llave-roja', !llave3);
+    llave3Elemento.querySelector('.agua').classList.toggle('agua-roja', !llave3);
+}
+
+
+
+function actualizarManecilla() {
+    // Calcula el ángulo de rotación en grados (360 grados / 60 segundos * contador de segundos)
+    const angulo = (tiempo_transcurrido % 60) * 6;
+
+    // Aplica la rotación a la manecilla de segundos
+    manecillaS.style.transform = `rotate(${angulo}deg) translateX(50%)`;
+
+    // Incrementa el contador de segundos
+    tiempo_transcurrido++;
+}
+
 // function cambiarColorLlave(key,contenedor){
 //     if (key){
 //         contenedor.classList.remove('redDiv');
@@ -192,23 +225,25 @@ function iniciar(){
         tanque1();
     } else {
         boton_iniciar.disabled = false;
-        alert("Por favor, ingresa solo números mayores o iguales a 0 en todos los campos.");
+        alert("Por favor, ingresa solo números mayores o iguales a 0 en todos los campos y que cumpla con el requisito maximo especificado.");
         input1.value = "";
         input2.value = "";
         input3.value = "";
     }
     function tanque1(){
-        console.log("Numero aleatorio generado para el primer tanque: " + numero_aleatorio);
+        
         intervalo = setInterval(function(){
             if (llenando >= maximo_porcentaje){
-                console.log("Llave 1 cerrada y ahora se abre la llave 2");
+                // console.log("Llave 1 cerrada y ahora se abre la llave 2");
                 llave1 = false;
                 llave2 = true;
+                actualizarColoresLlaves()
                 clearInterval(intervalo);
                 tanque2();
             }
             else{
                 tiempo_transcurrido += 1;
+                actualizarManecilla();
                 llenando += numero_aleatorio;
                 porcentaje = ((llenando/capacidad_tanque)*100);
                 setWaterLevel(agua_1,porcentaje);
@@ -219,19 +254,21 @@ function iniciar(){
     }
         
     function tanque2(){
-        console.log("Numero aleatorio generado para el segundo tanque: " + numero_aleatorio2)
+        
         intervalo2 = setInterval(function(){
             if (llenando <= minimo_porcentaje){
                 llave1 = true;
                 llave2 = false;
-                console.log("Llave 2 cerrada y ahora se abre la llave 1");
+                actualizarColoresLlaves()
+                // console.log("Llave 2 cerrada y ahora se abre la llave 1");
                 tanque1();
                 clearInterval(intervalo2);
             }
             else if(llenando2 >= maximo_porcentaje2){
                 llave2 = false;
                 llave3 = true;
-                console.log("Llave 2 cerrada y ahora se abre la llave 3");
+                actualizarColoresLlaves()
+                // console.log("Llave 2 cerrada y ahora se abre la llave 3");
                 terceraLlave();
                 clearInterval(intervalo2);
             }
@@ -239,12 +276,14 @@ function iniciar(){
                 llave1 = true;
                 llave3 = true;
                 llave2 = false;
-                console.log("El tanque 1 esta lo suficientemente vacio y el tanque 2 esta lleno, se abre la llave 1 y la llave 3");
+                actualizarColoresLlaves()
+                // console.log("El tanque 1 esta lo suficientemente vacio y el tanque 2 esta lleno, se abre la llave 1 y la llave 3");
                 llave_1_y_llave3();
                 clearInterval(intervalo2);
             }
             else if(llenando2 < maximo_porcentaje2){
                 tiempo_transcurrido += 1;
+                actualizarManecilla();
                 llenando -= numero_aleatorio2;
                 porcentaje = ((llenando/capacidad_tanque)*100);
                 setWaterLevel(agua_1,porcentaje);
@@ -259,17 +298,19 @@ function iniciar(){
     }
     
     function terceraLlave(){
-        console.log("Numero de la tercera llave generada: " + vaciando_tanque);
+        
         intervalo3 = setInterval(function() {
             if(llenando2 <= minimo_porcentaje2){
                 llave3 = false;
                 llave2 = true;
-                console.log("Llave 3 cerrada y se abre la segunda llave");
+                actualizarColoresLlaves()
+                // console.log("Llave 3 cerrada y se abre la segunda llave");
                 tanque2();
                 clearInterval(intervalo3);
             }
             else{
                 tiempo_transcurrido += 1;
+                actualizarManecilla();
                 llenando2 -= vaciando_tanque;
                 porcentaje2 = ((llenando2/capacidad_tanque2)*100);
                 setWaterLevel(agua_2,porcentaje2);
@@ -283,13 +324,15 @@ function iniciar(){
         intervalo4 = setInterval(function(){
             if(llenando2 <= minimo_porcentaje2){
                 if (llenando >= maximo_porcentaje){
-                    console.log("Se lleno el tanque 1, se cierra la llave y se abre la llave 2");
+                    // console.log("Se lleno el tanque 1, se cierra la llave y se abre la llave 2");
                     llave2 = true;
+                    actualizarColoresLlaves()
                     tanque2();
                     clearInterval(intervalo4);
                 }
                 else{
                     tiempo_transcurrido += 1;
+                    actualizarManecilla();
                     llenando += numero_aleatorio;
                     porcentaje = ((llenando/capacidad_tanque)*100);
                     setWaterLevel(agua_2,porcentaje);
@@ -299,6 +342,7 @@ function iniciar(){
             }
             else{
                 tiempo_transcurrido += 1;
+                actualizarManecilla();
                 llenando2 -= vaciando_tanque;
                 porcentaje2 = ((llenando2/capacidad_tanque)*100);
                 setWaterLevel(agua_2,porcentaje2);
